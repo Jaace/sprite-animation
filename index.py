@@ -20,6 +20,13 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
 
+    def update(self):
+        self.current_sprite += 1
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+
+        self.image = self.sprites[self.current_sprite]
+
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -40,5 +47,6 @@ while True:
 
     screen.fill((0, 0, 0))
     moving_sprites.draw(screen)
+    moving_sprites.update()
     pygame.display.flip()
     clock.tick(60)
