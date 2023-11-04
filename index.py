@@ -11,6 +11,7 @@ class Player(pygame.sprite.Sprite):
             f = os.path.join(directory, filename)
             if os.path.isfile(f):
                 image = pygame.image.load(f)
+                image = pygame.transform.scale(image, (384, 192))
                 self.sprites.append(image)
 
         self.current_sprite = 0
