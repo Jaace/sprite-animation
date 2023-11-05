@@ -4,6 +4,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
         self.sprites = []
+        self.is_animating = False
 
         # Outside of this tutorial, probably best to use a sprite sheet...
         directory = './frog'
@@ -20,12 +21,17 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
 
-    def update(self):
-        self.current_sprite += 1
-        if self.current_sprite >= len(self.sprites):
-            self.current_sprite = 0
+    def animate(self):
+        self.is_animating = True
 
-        self.image = self.sprites[self.current_sprite]
+    def update(self):
+        if self.is_animating == True:
+            self.current_sprite += 1
+            if self.current_sprite >= len(self.sprites):
+                self.current_sprite = 0
+                self.is_animating = False
+
+            self.image = self.sprites[self.current_sprite]
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -44,6 +50,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            player.animate()
 
     screen.fill((0, 0, 0))
     moving_sprites.draw(screen)
